@@ -1,5 +1,8 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+<<<<<<< HEAD
 *.xml
 *.iml
+=======
+>>>>>>> origin/main
