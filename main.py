@@ -20,3 +20,6 @@ ClearFiles(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned'
 
 #Function telling if a word was say by a president and who say it the most
 #Speak_word("Nation")
+
+#Function that all the president say and are important
+print(import_word())

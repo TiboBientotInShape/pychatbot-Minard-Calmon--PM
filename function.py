@@ -117,17 +117,40 @@ def Speak_word(word):
     print(list_pres)
     print(max_name)
 
-
-
-
-
-
 def import_word():
+    all_text = ""
     text = ""
+    DicIDF = IDF(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned')
+    verif_word = []
+    check_all_text = 0
+    nbText = 0
+    import_mot = []
     for files in os.listdir(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned'):
+        nbText+=1
         with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=files),"r") as file:
-            text += file.read()
+            all_text += file.read()
             file.close()
+
+    for word in all_text.split():
+        if word not in verif_word:
+            for files in os.listdir(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned'):
+                with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=files),"r") as file:
+                    text += file.read()
+                    DicTF = TF(text)
+                if word in text:
+                    check_all_text+=1
+                if (DicTF.get(word))==None or (DicTF.get(word)) > 5:
+                    check_all_text = 0
+                text =""
+            if check_all_text==nbText:
+                if DicIDF.get(word)<1:
+                    import_mot.append(word)
+            verif_word.append(word)
+        check_all_text=0
+
+    return(import_mot)
+
+
 
 
 
