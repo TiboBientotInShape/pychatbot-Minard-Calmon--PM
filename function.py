@@ -18,7 +18,6 @@ def cleanFiles(directory):
                     for ligne in Copy:
                         Paste.write(ligne.lower())
 
-cleanFiles("./Speeches")
 def ClearFiles(directory):
     os.chdir(directory)
     for files in os.listdir(directory):
@@ -31,8 +30,6 @@ def ClearFiles(directory):
         os.remove(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=files))
         os.rename("Ntext.txt",files)
 
-ClearFiles(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned')
-
 
 def TF(text):
     DicTF={}
@@ -43,9 +40,6 @@ def TF(text):
            DicTF.update({word:DicTF[word]+1})
     return(DicTF)
 
-#with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned\Nomination_Giscard dEstaing.txt', "r") as file:
-#    text = file.read()
-#print((TF(text)))
 
 def IDF(directory):
     os.chdir(directory)
@@ -73,9 +67,6 @@ def IDF(directory):
 
     return(DicIDF)
 
-#print(IDF(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned'))
-
-
 def TF_IDF(directory):
     L2D_TF_IDF = []
     L_TF_IDF = []
@@ -88,7 +79,6 @@ def TF_IDF(directory):
 
     for word in text.split():
         if not any(word in list for list in L2D_TF_IDF):
-            print(word)
             L_TF_IDF.append(word)
             for texte in os.listdir(directory):
                 with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{texte}'.format(texte=texte),"r") as txt:
@@ -104,8 +94,42 @@ def TF_IDF(directory):
     return(L2D_TF_IDF)
 
 
+def Speak_word(word):
+    text = ""
+    word = word.lower()
+    count = 0
+    list_pres = []
+    max_name = ""
+    verif_max=0
+    for files in os.listdir(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned'):
+        with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=files),"r") as file:
+            text += file.read()
+        for mot in text.split():
+            if mot == word:
+                count+=1
+        if count>0 and files.replace("Nomination_","").replace(".txt","").replace("1","").replace("2","") not in list_pres:
+            list_pres.append(files.replace("Nomination_","").replace(".txt","").replace("1","").replace("2",""))
+            if verif_max<count:
+                verif_max = count
+                max_name = files.replace("Nomination_","").replace(".txt","").replace("1","").replace("2","")
+        text = ""
+        count=0
+    print(list_pres)
+    print(max_name)
 
-print(TF_IDF(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned'))
+
+
+
+
+
+def import_word():
+    text = ""
+    for files in os.listdir(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned'):
+        with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=files),"r") as file:
+            text += file.read()
+            file.close()
+
+
 
 
 
