@@ -2,10 +2,10 @@ import os
 import math
 #Fonction pour mettre tout le fichier en minuscule
 def cleanFiles(directory):
-    if not os.path.exists("./cleaned"):
-        Cleaned = "./cleaned"
-        os.mkdir(Cleaned)
-        for files in os.listdir(directory):
+    if not os.path.exists("./cleaned"):#Verifier si le fichier cleaned n'est pas déja crée
+        Cleaned = "./cleaned"#Associe un chemin
+        os.mkdir(Cleaned)#Crée le répertoire
+        for files in os.listdir(directory):#Fait le tour de fichier dans le repertoir directory
             os.chdir(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\Speeches')
             noms = files
             os.chdir(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned')
@@ -24,7 +24,7 @@ def ClearFiles(directory):
         f = open("Ntext.txt", "w")
         with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=files),"r") as file:
             text = file.read()
-            text = text.replace(",","").replace("-","").replace(".","").replace("!","").replace("?","").replace("'"," ")    #.replace("ã©","e").replace("ã¹","u").replace("ã¨","e").replace("ã§","c").replace("ã ","a").replace("ãª","e")
+            text = text.replace(",","").replace("-","").replace(".","").replace("!","").replace("?","").replace("'"," ").replace("ã©","e").replace("ã¹","u").replace("ã¨","e").replace("ã§","c").replace("ã ","a").replace("ãª","e")
             f.write(text)
         f.close()
         os.remove(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=files))
@@ -87,7 +87,7 @@ def TF_IDF(directory):
                         tf = ((DicTF).get(word))
                     else:
                         tf = 0
-                    L_TF_IDF.append((DicIDF.get(word))*tf)
+                    L_TF_IDF.append(round((DicIDF.get(word))*tf,2))
                 txt.close()
             L2D_TF_IDF.append(L_TF_IDF)
             L_TF_IDF = []
@@ -150,9 +150,62 @@ def import_word():
 
     return(import_mot)
 
+def TokenQ(Question):
+    Q = Question.lower()
+    list = []
+    for i in Q:
+        if ord(i) < 97 or ord(i)>122:
+            Q = Q.replace(i," ")
+    for i in Q.split():
+        list.append(i)
+    return(list)
 
+def FindCorpus(list,DicCorpus):
+    Newlist = []
+    for i in list:
+        if i in DicCorpus:
+            Newlist.append(i)
+    return(Newlist)
+def formatMatrice_TF_IDF(Dic):
+    Matrice_TF_IDF = []
+    list_word = []
+    for i in range (1,len(Dic[0])):
+        for j in range (0,len(Dic)):
+            list_word.append(Dic[j][i])
+        Matrice_TF_IDF.append(list_word)
+        list_word = []
+    return(Matrice_TF_IDF)
 
+def TF_Question(Question):
+    Dic= {}
+    for i in Question:
+        if i not in Dic:
+             Dic[i]=1
+        else:
+            Dic.update({i:Dic[i]+1})
+    return(Dic)
 
+def TF_IDF_Question(DicTF,IDF):
+    Dic_TF_IDF_Question = {}
+    for i in DicTF:
+        Dic_TF_IDF_Question.update({i: round(DicTF[i] * IDF[i],2)})
+    return Dic_TF_IDF_Question
 
+def produit_scalaire(A,B,list):
+    M = (len(list[0]))-1
+    res = 0
+    for i in range(M):
+        res+=float(A[i])*float(B[i])
+    return res
 
+def normeV(A):
+    res = 0
+    M = len(A)
+    for i in range(M):
+        res+= ((float(A[i]))**2)
+    return math.sqrt(res)
 
+def similarity(A,B,list):
+    res=0
+    res=(produit_scalaire(A,B,list))/((normeV(A))*normeV(B))
+    return res
