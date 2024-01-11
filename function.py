@@ -96,7 +96,7 @@ def IDF(directory):
 
             IDF_word = math.log((nb_files/nb_word)+1)
             nb_word=0
-            Dicte({word:IDF_word})
+            DicIDF.update({word:IDF_word})
 
     return(DicIDF)
 

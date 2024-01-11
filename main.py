@@ -18,13 +18,13 @@ ClearFiles(chemin)
 
 
 #line to print the IDF function in the directory
-print(IDF(chemin))
+#print(IDF(chemin))
 
 #Do the TF IDF of all the word in the corpus
 #print(TF_IDF(chemin))
 
 #Function telling if a word was say by a president and who say it the most
-#Speak_word("Nation")
+Speak_word("Nation")
 
 #Function important word that all the president said
 #print(import_word())
@@ -54,11 +54,11 @@ print(" Selection une fonctionnalite en entrant le numero de la fonction. \n")
 print(" 1. Afficher la liste de présidents qui on leur discours dans la base de donnee. \n",
       "2. Afficher le TF (Term Frequency) d'un des texte dans la base de donnee. \n",
       "3. Le IDF d'un mot dans la totalite des texts de la base de donnee. \n",
-      "4. Afficher le TF_IDF d'un mot. \n",
-      "5. Afficher la liste des mots les moins importants dans le corpus de documents. \n",
-      "6. Afficher le(s) mot(s) ayant le score TD-IDF le plus élevé \n",
-      "7. Indiquer le(s) mot(s) le(s) plus repete(s) par un président hormis les mots dits « non importants » \n",
-      "8. Indiquer le(s) nom(s) du (des) president(s) qui a (ont) parlé de la d'un mot et celui qui l’a repete le plus de fois \n",
+      "4. Affiche le TF_IDF d'un mot. \n",
+      "5. Affiche la liste des mots les moins importants dans le corpus de documents. \n",
+      "6. Affiche le(s) mot(s) ayant le score TD-IDF le plus élevé \n",
+      "7. Indique le(s) mot(s) le(s) plus repete(s) par un président hormis les mots dits « non importants » \n",
+      "8. Indique le(s) nom(s) du (des) president(s) qui a (ont) parlé de la d'un mot et celui qui l’a repete le plus de fois \n",
       "9. 6. Hormis les mots dits « non importants », quel(s) est(sont) le(s) mot(s) que tous les presidents ont evoques. \n \n"
       " 10. Dites une question, vous verrez les étapes\n\n")
 
@@ -91,4 +91,17 @@ if rep==2:
             text = file.read()
       print((TF(text)))
 
+if rep==3:
+      dic = IDF(chemin)
+      reps = (input("Saisir quel mot rechercher : "))
+      print(dic.get("{mot}".format(mot=reps)))
 
+if rep==4:
+      reps = (input("Saisir quel mot rechercher : "))
+      TF_IDF(chemin)
+
+#if rep==5:
+
+if rep==8:
+      reps = (input("Saisir quel mot rechercher : "))
+      Speak_word("{mot}".format(mot=reps))
