@@ -1,6 +1,8 @@
 import os
 import math
 
+chemin = (r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned')
+
 def list_pres(directory, extension):
 
     files_names = []
@@ -158,9 +160,9 @@ def Rep_words(nom):
     text = ""
     nom = nom.lower()
     list_word = []
-    for filename in os.listdir(r'C:\Users\minar\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned'):
+    for filename in os.listdir(chemin):
         if nom in filename.lower():
-            with open(r'C:\Users\minar\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=filename),"r") as file:
+            with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned/{file}'.format(file=filename),"r") as file:
                 text+=file.read()
 
     text_TF = TF(text)

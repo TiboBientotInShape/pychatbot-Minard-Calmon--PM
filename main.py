@@ -24,7 +24,7 @@ ClearFiles(chemin)
 #print(TF_IDF(chemin))
 
 #Function telling if a word was say by a president and who say it the most
-Speak_word("Nation")
+#Speak_word("Nation")
 
 #Function important word that all the president said
 #print(import_word())
@@ -54,12 +54,12 @@ print(" Selection une fonctionnalite en entrant le numero de la fonction. \n")
 print(" 1. Afficher la liste de présidents qui on leur discours dans la base de donnee. \n",
       "2. Afficher le TF (Term Frequency) d'un des texte dans la base de donnee. \n",
       "3. Le IDF d'un mot dans la totalite des texts de la base de donnee. \n",
-      "4. Affiche le TF_IDF d'un mot. \n",
+      "4. Affiche le TF_IDF d'un mot dans le corpus de documents. \n",
       "5. Affiche la liste des mots les moins importants dans le corpus de documents. \n",
       "6. Affiche le(s) mot(s) ayant le score TD-IDF le plus élevé \n",
-      "7. Indique le(s) mot(s) le(s) plus repete(s) par un président hormis les mots dits « non importants » \n",
+      "7. Affiche la liste des mots les plus répéte par un présidet hormis les mots dits non importants \n",
       "8. Indique le(s) nom(s) du (des) president(s) qui a (ont) parlé de la d'un mot et celui qui l’a repete le plus de fois \n",
-      "9. 6. Hormis les mots dits « non importants », quel(s) est(sont) le(s) mot(s) que tous les presidents ont evoques. \n \n"
+      "9. Hormis les mots dits « non importants », quel(s) est(sont) le(s) mot(s) que tous les presidents ont evoques. \n \n"
       " 10. Dites une question, vous verrez les étapes\n\n")
 
 rep = int(input("Quel fonction voulez vous utiliser : "))
@@ -98,10 +98,50 @@ if rep==3:
 
 if rep==4:
       reps = (input("Saisir quel mot rechercher : "))
-      TF_IDF(chemin)
+      list = TF_IDF(chemin)
+      for i in list:
+            if reps in i:
+                  print(i)
 
-#if rep==5:
+if rep==5:
+      print(mots_nimport(TF_IDF(chemin)))
+
+if rep==6:
+      print(mots_import(TF_IDF(chemin)))
+
+if rep==7:
+      print("Sélectionner un président parmis cette liste : ")
+      nb = 0
+      for i in (pren_pres(list_pres(chemin,"txt"))):
+            nb+=1
+            print(nb,"-",i)
+      reps = int(input("\n Saisir un président (numéro) : "))
+      if reps==1:
+            print(Rep_words("Chirac"))
+      if reps==2:
+            print(Rep_words("Giscard dEstaing"))
+      if reps==3:
+            print(Rep_words("Hollande"))
+      if reps==4:
+            print(Rep_words("Macron"))
+      if reps==5:
+            print(Rep_words("Mitterrand"))
+      if reps==6:
+            print(Rep_words("Sarkozy"))
 
 if rep==8:
       reps = (input("Saisir quel mot rechercher : "))
       Speak_word("{mot}".format(mot=reps))
+
+if rep==9:
+      print(import_word())
+
+if rep==10:
+      reps = input("Saisir une question : \n")
+      print("Question traité par une Tokenisation \n", TokenQ(reps))
+      print("Liste de mot qui figure dans la question et le corpus de documents \n",(FindCorpus(TokenQ(reps),IDF(chemin))))
+      print("Formatage de notre TF_IDF du corpus de documents, passant donc de dictionnaire à matrice \n",(formatMatrice_TF_IDF(TF_IDF(chemin))))
+      print("Donne le TF des mots dans la question \n",(TF_Question(TokenQ(reps))))
+      TF_Q = TF_Question(FindCorpus(TokenQ(reps),IDF(chemin)))
+      IDF_Q = (IDF(chemin))
+      print("Donne le TF_IDF de la question \n",(TF_IDF_Question(TF_Q,IDF_Q)))
