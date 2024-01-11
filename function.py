@@ -96,7 +96,7 @@ def IDF(directory):
 
             IDF_word = math.log((nb_files/nb_word)+1)
             nb_word=0
-            DicIDF.update({word:IDF_word})
+            Dicte({word:IDF_word})
 
     return(DicIDF)
 
@@ -285,3 +285,4 @@ def similarity(A,B,list):
     res=0
     res=(produit_scalaire(A,B,list))/((normeV(A))*normeV(B))
     return res
+
