@@ -2,8 +2,7 @@ from function import *
 import os
 # -*- coding: utf-8 -*-
 
-
-chemin = (r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned')
+chemin = (r'C:\Users\trist\PycharmProjects/pychatbot-Minard-Calmon--PM/cleaned')
 
 #Function to create the directory cleaned
 cleanFiles("./Speeches")
@@ -11,62 +10,24 @@ cleanFiles("./Speeches")
 #Function to format the doc in the cleaned directory
 ClearFiles(chemin)
 
-#line to test the TF function in a specific texte
-#with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned\Nomination_Giscard dEstaing.txt', "r") as file:
-#    text = file.read()
-#print((TF(text)))
+print(" PyChatBot\n\n", "Bienvenue sur PyChatBot, un ChatBot ayant comme base de données des discours présidentiels.\n")
+print(" Sélectionnez une fonctionnalité en entrant le numéro de la fonction. \n")
+print(" 1. Afficher la liste des présidents qui ont leur discours dans la base de données. \n",
+      "2. Afficher la fréquence des termes (Term Frequency - TF) d'un des textes dans la base de données. \n",
+      "3. Afficher l'IDF (Inverse Document Frequency) d'un mot dans la totalité des textes de la base de données. \n",
+      "4. Afficher le TF-IDF d'un mot dans le corpus de documents. \n",
+      "5. Afficher la liste des mots les moins importants dans le corpus de documents. \n",
+      "6. Afficher le(s) mot(s) ayant le score TF-IDF le plus élevé. \n",
+      "7. Afficher la liste des mots les plus répétés par un président, hormis les mots dits non importants. \n",
+      "8. Indiquer le(s) nom(s) du (des) président(s) qui a (ont) parlé d'un mot recherché et celui qui l’a répété le plus de fois. \n",
+      "9. Hormis les mots dits « non importants », quels sont les mots que tous les présidents ont évoqués. \n \n"
+      "10. Posez une question, vous verrez les étapes.\n\n")
 
-
-#line to print the IDF function in the directory
-#print(IDF(chemin))
-
-#Do the TF IDF of all the word in the corpus
-#print(TF_IDF(chemin))
-
-#Function telling if a word was say by a president and who say it the most
-#Speak_word("Nation")
-
-#Function important word that all the president said
-#print(import_word())
-
-#Function Tokenisiation of the question
-#Question = "Quelle est l'importance de la democratie ?"
-#print(TokenQ(Question))
-
-#Function that find a correspondance between the question and the corpus
-#print(FindCorpus(TokenQ(Question),IDF(chemin)))
-
-#Function not obligatory in order to make the correct format (changing the dic of the TF-IDF into a matrice)
-#print(formatMatrice_TF_IDF(TF_IDF(chemin)))
-
-#Function to tell the TF of each word in the question
-#print(TF_Question(TokenQ(Question)))
-
-#Function to tell the TF-IDF of the question
-#TF_Q = TF_Question(FindCorpus(TokenQ(Question),IDF(chemin)))
-#IDF_Q = (IDF(chemin))
-#print(TF_IDF_Question(TF_Q,IDF_Q))
-
-#produit_scalaire(TF_IDF(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned'))
-
-print(" PyChatBot\n\n","Bienvenue sur PyChatBot, un ChatBot avec un base de donnée sur des discours de presidents.\n")
-print(" Selection une fonctionnalite en entrant le numero de la fonction. \n")
-print(" 1. Afficher la liste de présidents qui on leur discours dans la base de donnee. \n",
-      "2. Afficher le TF (Term Frequency) d'un des texte dans la base de donnee. \n",
-      "3. Le IDF d'un mot dans la totalite des texts de la base de donnee. \n",
-      "4. Affiche le TF_IDF d'un mot dans le corpus de documents. \n",
-      "5. Affiche la liste des mots les moins importants dans le corpus de documents. \n",
-      "6. Affiche le(s) mot(s) ayant le score TD-IDF le plus élevé \n",
-      "7. Affiche la liste des mots les plus répéte par un présidet hormis les mots dits non importants \n",
-      "8. Indique le(s) nom(s) du (des) president(s) qui a (ont) parlé de la d'un mot et celui qui l’a repete le plus de fois \n",
-      "9. Hormis les mots dits « non importants », quel(s) est(sont) le(s) mot(s) que tous les presidents ont evoques. \n \n"
-      " 10. Dites une question, vous verrez les étapes\n\n")
 
 rep = int(input("Quel fonction voulez vous utiliser : "))
 while rep<1 or rep>10:
       rep= int(input("Valeur incorrect, refaire : "))
 
-chemin = (r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned')
 
 if rep ==1:
       print("Voici la liste des présidents ce trouvant dans notres base de donnée :")
@@ -76,7 +37,8 @@ if rep ==1:
 if rep==2:
       nb = 0
       list = []
-      print("Sélectioner une text")
+      TF_txt = {}
+      print("Sélectioner un text")
       for filename in os.listdir(chemin):
             nb+=1
             print(nb,".",(filename).replace("_"," ").replace(".txt",""))
@@ -86,11 +48,21 @@ if rep==2:
       while selec<0 or selec>nb:
             selec = int(input("Saisir une nouvelles valeurs : "))
       txt = list[selec-1]
-      print(txt)
+      print(txt,"\n")
       with open(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM\cleaned\{name}'.format(name=txt), "r") as file:
             text = file.read()
-      print((TF(text)))
-
+      TF_txt=(TF(text))
+      x = input("Voulez vous chercher un mot en particulier ? O/N \n")
+      while x != "O" and x != "N" and x != "o" and x != "n":
+            x = input("Veuillez ressaisir une nouvelle valeur correct. O/N \n")
+      if x=="O" or x=="o":
+            mot = input("Quel mot chercher vous ?\n")
+            if mot.lower() in TF_txt:
+                  print("Le TF du mot choisi dans le texte sélectionner est :",TF_txt[mot.lower()])
+            else:
+                  print("Le mot rechercher ne ce trouve pas dans le texte sélectionner")
+      if x=="N" or x == "n":
+            print(TF(text))
 if rep==3:
       dic = IDF(chemin)
       reps = (input("Saisir quel mot rechercher : "))

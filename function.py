@@ -1,9 +1,8 @@
 import os
 import math
 
-chemin = (r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned')
 
-def list_pres(directory, extension):
+def list_pres(directory, extension): #Fonction permettant d'obtenir les noms des président du corpus en retirant les doublons
 
     files_names = []
     for filename in os.listdir(directory):
@@ -13,11 +12,11 @@ def list_pres(directory, extension):
                 files_names.append(res)
     return files_names
 
-def pren_pres(list):
+def pren_pres(list):#Fonction permettant d'associer nom et prenom
     files_surnames = []
     for i in list:
         if i == 'Chirac':
-            files_surnames.append("Jack Chirac")
+            files_surnames.append("Jacques Chirac")
 
         if i == 'Giscard dEstaing':
             files_surnames.append("Valery Giscard dEstaing")
@@ -35,8 +34,7 @@ def pren_pres(list):
             files_surnames.append("Nicolas Sarkozy")
     return files_surnames
 
-#Fonction pour mettre tout le fichier en minuscule
-def cleanFiles(directory):
+def cleanFiles(directory):#Fonction permettant de crée le repertoir cleaned avec les fichiers ce trouvant de Speeches
     if not os.path.exists("./cleaned"):#Verifier si le fichier cleaned n'est pas déja crée
         Cleaned = "./cleaned"#Associe un chemin
         os.mkdir(Cleaned)#Crée le répertoire
@@ -53,7 +51,7 @@ def cleanFiles(directory):
                     for ligne in Copy:
                         Paste.write(ligne.lower())
 
-def ClearFiles(directory):
+def ClearFiles(directory):#Fonction pour formatter les fichiers dans cleaned
     os.chdir(directory)
     for files in os.listdir(directory):
         f = open("Ntext.txt", "w")
@@ -66,7 +64,7 @@ def ClearFiles(directory):
         os.rename("Ntext.txt",files)
 
 
-def TF(text):
+def TF(text):#Fonction permettant le calcule du TF d'un texte
     DicTF={}
     for word in text.split():
        if word not in DicTF:
@@ -76,7 +74,7 @@ def TF(text):
     return(DicTF)
 
 
-def IDF(directory):
+def IDF(directory):#Fonction pour obtenir le IDF d'un directory (dans notre cas cleaned)
     os.chdir(directory)
     nb_files = 0
     text=""
@@ -102,7 +100,7 @@ def IDF(directory):
 
     return(DicIDF)
 
-def TF_IDF(directory):
+def TF_IDF(directory):#Fonction pour calculer le TF_IDF du corpus
     L2D_TF_IDF = []
     L_TF_IDF = []
     DicIDF = (IDF(directory))
@@ -129,7 +127,7 @@ def TF_IDF(directory):
     return(L2D_TF_IDF)
 
 
-def mots_nimport(L2D):
+def mots_import(L2D):#Fonction permettant d'obtenir les mots importants
     list_mots = []
     verif = 0
     longeur_list = len(L2D)
@@ -143,7 +141,7 @@ def mots_nimport(L2D):
         verif = 0
     return(list_mots)
 
-def mots_import(L2D):
+def mots_nimport(L2D):#Fonction permettant d'obtenir les mots dit non importants
     list_mots = []
     somme = 0
     longeur_list = len(L2D)
@@ -151,12 +149,12 @@ def mots_import(L2D):
     for mots in range(0,longeur_list):
         for TF_IDF in range(1,longueur_list_TF_IDF):
                 somme+=L2D[mots][TF_IDF]
-        if somme>=50:
+        if somme>=40:
             list_mots.append(L2D[mots][0])
         somme = 0
     return(list_mots)
 
-def Rep_words(nom):
+def Rep_words(nom):#Fonction pour obtenir les mots les plus repeter d'un president
     text = ""
     nom = nom.lower()
     list_word = []
@@ -172,7 +170,7 @@ def Rep_words(nom):
             list_word.append(word)
     return(list_word)
 
-def Speak_word(word):
+def Speak_word(word):#Fonction pour obtenir la liste des president ayant dit un mot et celui qui l'as dit le plus de fois
     text = ""
     word = word.lower()
     count = 0
@@ -195,7 +193,7 @@ def Speak_word(word):
     print(list_pres)
     print(max_name)
 
-def import_word():
+def import_word():#Fonction pour obtenir les mots que tous les présidents ont évoqués sans ceux non important
     all_text = ""
     text = ""
     DicIDF = IDF(r'C:\Users\trist\PycharmProjects\pychatbot-Minard-Calmon--PM/cleaned')
@@ -228,7 +226,7 @@ def import_word():
 
     return(import_mot)
 
-def TokenQ(Question):
+def TokenQ(Question):#Tokenisation de la question
     Q = Question.lower()
     list = []
     for i in Q:
@@ -238,13 +236,13 @@ def TokenQ(Question):
         list.append(i)
     return(list)
 
-def FindCorpus(list,DicCorpus):
+def FindCorpus(list,DicCorpus):#Liste de mot qui figure dans la question et le corpus de documents
     Newlist = []
     for i in list:
         if i in DicCorpus:
             Newlist.append(i)
     return(Newlist)
-def formatMatrice_TF_IDF(Dic):
+def formatMatrice_TF_IDF(Dic):#Formatage de notre TF_IDF du corpus de documents, passant donc de dictionnaire à matrice
     Matrice_TF_IDF = []
     list_word = []
     for i in range (1,len(Dic[0])):
@@ -254,7 +252,7 @@ def formatMatrice_TF_IDF(Dic):
         list_word = []
     return(Matrice_TF_IDF)
 
-def TF_Question(Question):
+def TF_Question(Question):#Donne le TF des mots dans la question
     Dic= {}
     for i in Question:
         if i not in Dic:
@@ -263,7 +261,7 @@ def TF_Question(Question):
             Dic.update({i:Dic[i]+1})
     return(Dic)
 
-def TF_IDF_Question(DicTF,IDF):
+def TF_IDF_Question(DicTF,IDF):#Donne le TF_IDF de la question
     Dic_TF_IDF_Question = {}
     for i in DicTF:
         Dic_TF_IDF_Question.update({i: round(DicTF[i] * IDF[i],2)})
